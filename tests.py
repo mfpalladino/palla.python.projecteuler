@@ -11,6 +11,8 @@ sys.path.append("problem_04")
 import solver_04
 sys.path.append("problem_05")
 import solver_05
+sys.path.append("problem_06")
+import solver_06
 
 class Tests(unittest.TestCase):
 
@@ -31,6 +33,10 @@ class Tests(unittest.TestCase):
     def test_solver_05(self):
         solver_instance = solver_05.Solver()
         self.assertEqual(solver_instance.get_result(), 232792560)
+
+    def test_solver_06(self):
+        solver_instance = solver_06.Solver()
+        self.assertEqual(solver_instance.get_result(), 25164150)
 
 if __name__ == '__main__':
     unittest.main()
