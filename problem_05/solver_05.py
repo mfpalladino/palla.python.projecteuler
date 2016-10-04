@@ -27,7 +27,5 @@ class Solver:
         return number
 
     def get_result(self):
-        print("starting problem 5 solver (it's gonna take a while)...")
         result = self.__get_smallest_evenly_divisible_in_interval(1, 20)
-        print("finish problem 5 solver!")
         return result     
