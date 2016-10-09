@@ -1,4 +1,7 @@
 '''
+The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
+Find the sum of all the primes below two million.
 '''
 
 import sys
@@ -7,15 +10,7 @@ from integer_utils import *
 
 class Solver:
     def get_result(self):
-        sum = 0
-        last_prime = 2
-        while last_prime < 2000000:
-            sum += last_prime
-            last_prime = get_next_prime(last_prime)
+        primes = get_list_of_primes(2000000)
+        sum = reduce(lambda x, y: x + y, primes)
 
         return sum
-
-
-solver = Solver()
-print(str(solver.get_result()))
-
