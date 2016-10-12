@@ -1,52 +1,10 @@
 '''
 In the 20x20 grid below, four numbers along a diagonal line have been marked in red.
+The product of these numbers is 26 x 63 x 78 x 14 = 1788696.
+What is the greatest product of four adjacent numbers in the same direction 
+(up, down, left, right, or diagonally) in the 20x20 grid?
 '''
-
-class TraverseDirection:
-    DIAGONALLY = 1
-    LEFT_TO_RIGHT = 2
-    UP_TO_DOWN = 3
-
 class Solver:
-    def _have_next_item(self, grid, column, row, direction):
-        if direction == TraverseDirection.DIAGONALLY:
-            return column + 1 < len(grid) and row + 1 < len(grid)
-        elif direction == TraverseDirection.LEFT_TO_RIGHT:
-            return column + 1 < len(grid)
-        elif direction == TraverseDirection.UP_TO_DOWN:
-            return row + 1 < len(grid)
-
-    def __traverse(self, grid, direction):
-        greatest_product = 0
-        for row in range(0, len(grid)):
-            for column in range(0, len(grid)):
-                inner_row = row
-                inner_column = column
-                depth_counter = 1
-                last_digits_to_product = [0,0,0,0]
-
-                while depth_counter <= 4:
-                    last_digits_to_product[depth_counter-1] = int(grid[inner_row][inner_column])
-
-                    if not self._have_next_item(grid, inner_column, inner_row, direction):
-                        break
-
-                    if direction == TraverseDirection.DIAGONALLY:
-                        inner_column += 1
-                        inner_row += 1
-                    elif direction == TraverseDirection.LEFT_TO_RIGHT:
-                        inner_column += 1
-                    elif direction == TraverseDirection.UP_TO_DOWN:
-                        inner_row += 1
-
-                    depth_counter += 1
-
-                current_product = reduce(lambda j, k: j * k, last_digits_to_product)
-
-                if current_product > greatest_product:
-                    greatest_product = current_product
-
-        return greatest_product
 
     def get_result(self):
         grid = [["08","02","22","97","38","15","00","40","00","75","04","05","07","78","52","12","50","77","91","08"],
@@ -70,21 +28,26 @@ class Solver:
                 ["20","73","35","29","78","31","90","01","74","31","49","71","48","86","81","16","23","57","05","54"],
                 ["01","70","54","71","83","51","54","69","16","92","33","48","61","43","52","01","89","19","67","48"]]
 
-        greatest_product = self.__traverse(grid, TraverseDirection.DIAGONALLY)
-        print(str(greatest_product))
+        greatest_product = 0
+
+        for i in range(20):
+            for j in range(16):
+                prod = int(grid[i][j])*int(grid[i][j+1])*int(grid[i][j+2])*int(grid[i][j+3])
+                if prod > greatest_product: greatest_product = prod
+
+                prod = int(grid[j][i])*int(grid[j+1][i])*int(grid[j+2][i])*int(grid[j+3][i])
+                if prod > greatest_product: greatest_product = prod
         
-        product_left_to_right = self.__traverse(grid, TraverseDirection.LEFT_TO_RIGHT)
-        print(str(product_left_to_right))
-        if product_left_to_right > greatest_product:
-            greatest_product = product_left_to_right
-
-        product_up_to_down = self.__traverse(grid, TraverseDirection.UP_TO_DOWN)
-        print(str(product_up_to_down))
-        if product_up_to_down > greatest_product:
-            greatest_product = product_up_to_down
-
+        for i in range(16):
+            for j in range(16):
+                prod = int(grid[i][j])*int(grid[i+1][j+1])*int(grid[i+2][j+2])*int(grid[i+3][j+3])
+                if prod > greatest_product: greatest_product = prod
+        for i in range(3,20):
+            for j in range(16):
+                prod = int(grid[i][j])*int(grid[i-1][j+1])*int(grid[i-2][j+2])*int(grid[i-3][j+3])
+                if prod > greatest_product: greatest_product = prod
+        
         return greatest_product
-
 
 solver = Solver()
 print(solver.get_result())
